@@ -9,37 +9,37 @@ import { NavBar } from "@/components/ui/tubelight-navbar"
 const testimonials = [
   {
     author: {
-      name: "Emma Thompson",
-      handle: "@emmaai",
+      name: "Aanya Sharma",
+      handle: "@aanyacodes",
       avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop&crop=face",
     },
-    text: "Using this AI platform has transformed how we handle data analysis. The speed and accuracy are unprecedented.",
-    href: "https://twitter.com/emmaai",
+    text: "Resume Analyzer helped me tailor my resume to a job description and I got interviews within a week.",
+    href: "https://twitter.com/aanyacodes",
   },
   {
     author: {
-      name: "David Park",
-      handle: "@davidtech",
+      name: "Rohit Verma",
+      handle: "@rohitdev",
       avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
     },
-    text: "The API integration is flawless. We've reduced our development time by 60% since implementing this solution.",
-    href: "https://twitter.com/davidtech",
+    text: "The job-match insights are spot on. I fixed gaps the tool highlighted and doubled my response rate.",
+    href: "https://twitter.com/rohitdev",
   },
   {
     author: {
-      name: "Sofia Rodriguez",
-      handle: "@sofiaml",
+      name: "Neha Patel",
+      handle: "@nehaml",
       avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face",
     },
-    text: "Finally, an AI tool that actually understands context! The accuracy in natural language processing is impressive.",
+    text: "Finally, a resume tool that understands context. The ATS checks and skill extraction were incredibly helpful.",
   },
 ]
 
 const navItems = [
   { name: "Home", url: "#", icon: "HomeIcon" },
   { name: "Features", url: "#features", icon: "User" },
-  { name: "Testimonials", url: "#testimonials", icon: "Briefcase" },
-  { name: "Contact", url: "#contact", icon: "FileText" },
+  { name: "Success Stories", url: "#testimonials", icon: "Briefcase" },
+  { name: "Support", url: "#contact", icon: "FileText" },
 ]
 
 export default function HomePage() {
@@ -52,9 +52,9 @@ export default function HomePage() {
       {/* Features Section */}
       <section id="features" className="py-20">
         <div className="max-w-7xl mx-auto px-4 text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">Why Choose Our Platform?</h2>
+          <h2 className="text-3xl md:text-5xl font-bold mb-6">Why Use Resume Analyzer?</h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Discover the features that make us the preferred choice for developers worldwide.
+            See how our AI highlights key skills, checks ATS readiness, matches job descriptions, and boosts interview chances.
           </p>
         </div>
         <FeaturesSectionWithHoverEffects />
@@ -63,8 +63,8 @@ export default function HomePage() {
       {/* Testimonials Section */}
       <section id="testimonials">
         <TestimonialsSection
-          title="Trusted by developers worldwide"
-          description="Join thousands of developers who are already building the future with our AI platform"
+          title="Trusted by job seekers and recruiters"
+          description="Join thousands using Resume Analyzer to improve resumes, tailor applications, and land interviews."
           testimonials={testimonials}
         />
       </section>
@@ -72,12 +72,12 @@ export default function HomePage() {
       {/* CTA Section */}
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6">Ready to Get Started?</h2>
+          <h2 className="text-3xl md:text-5xl font-bold mb-6">Ready to optimize your resume?</h2>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join thousands of satisfied customers and transform your business today.
+            Upload your resume and get instant, actionable feedback with ATS checks and role-based suggestions.
           </p>
           <Button size="lg" className="text-lg px-8">
-            Start Your Free Trial
+            Analyze My Resume
           </Button>
         </div>
       </section>

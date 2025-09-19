@@ -26,12 +26,12 @@ export function Footerdemo() {
       <div className="container mx-auto px-4 py-12 md:px-6 lg:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="relative">
-            <h2 className="mb-4 text-3xl font-bold tracking-tight">Stay Connected</h2>
+            <h2 className="mb-4 text-3xl font-bold tracking-tight">Stay Updated</h2>
             <p className="mb-6 text-muted-foreground">
-              Join our newsletter for the latest updates and exclusive offers.
+              Get resume tips, hiring trends, and product updates straight to your inbox.
             </p>
             <form className="relative">
-              <Input type="email" placeholder="Enter your email" className="pr-12 backdrop-blur-sm" />
+              <Input type="email" placeholder="Email address" className="pr-12 backdrop-blur-sm" />
               <Button
                 type="submit"
                 size="icon"
@@ -50,26 +50,26 @@ export function Footerdemo() {
                 Home
               </a>
               <a href="#" className="block transition-colors hover:text-primary">
-                About Us
+                How It Works
               </a>
               <a href="#" className="block transition-colors hover:text-primary">
-                Services
+                Pricing
               </a>
               <a href="#" className="block transition-colors hover:text-primary">
-                Products
+                Blog
               </a>
               <a href="#" className="block transition-colors hover:text-primary">
-                Contact
+                Support
               </a>
             </nav>
           </div>
           <div>
-            <h3 className="mb-4 text-lg font-semibold">Contact Us</h3>
+            <h3 className="mb-4 text-lg font-semibold">Contact</h3>
             <address className="space-y-2 text-sm not-italic">
               <p>123 Innovation Street</p>
               <p>Tech City, TC 12345</p>
-              <p>Phone: (123) 456-7890</p>
-              <p>Email: hello@example.com</p>
+              <p>Support: (123) 456-7890</p>
+              <p>Email: support@resumeanalyzer.app</p>
             </address>
           </div>
           <div className="relative">
@@ -143,7 +143,7 @@ export function Footerdemo() {
           </div>
         </div>
         <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t pt-8 text-center md:flex-row">
-          <p className="text-sm text-muted-foreground">© 2024 Your Company. All rights reserved.</p>
+          <p className="text-sm text-muted-foreground">© 2024 Resume Analyzer. All rights reserved.</p>
           <nav className="flex gap-4 text-sm">
             <a href="#" className="transition-colors hover:text-primary">
               Privacy Policy

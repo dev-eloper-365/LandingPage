@@ -4,9 +4,9 @@ import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Dev. Site',
-  description: 'Dev made it',
-  generator: 'Dev. Site',
+  title: 'Resume Analyzer',
+  description: 'AI-powered resume insights, ATS checks, and job match analysis',
+  generator: 'Resume Analyzer',
 }
 
 export default function RootLayout({

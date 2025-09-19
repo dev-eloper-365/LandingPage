@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>Resume Analyzer (Python)</title>
+	<style>
+		body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 20px; }
+		#dropzone { border: 2px dashed #999; padding: 24px; text-align: center; border-radius: 8px; }
+		#dropzone.drag { border-color: #333; }
+		table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+		th, td { border: 1px solid #ddd; padding: 8px; text-align: left; vertical-align: top; }
+		th { background: #f8f8f8; }
+		#controls { margin-top: 12px; display: flex; gap: 8px; }
+		button { padding: 8px 12px; }
+	</style>
+</head>
+<body>
+	<h1>Resume Analyzer</h1>
+	<div id="dropzone">Drag & drop a PDF here or <button id="browse">Choose PDF</button></div>
+	<input type="file" id="file" accept="application/pdf" style="display:none" />
+
+	<div id="controls">
+		<button id="export">Export JSON</button>
+	</div>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Filename</th>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Phone</th>
+				<th>Skills</th>
+			</tr>
+		</thead>
+		<tbody id="tbody"></tbody>
+	</table>
+
+	<script>
+	const dropzone = document.getElementById('dropzone');
+	const fileInput = document.getElementById('file');
+	const browse = document.getElementById('browse');
+	const tbody = document.getElementById('tbody');
+	const exportBtn = document.getElementById('export');
+	const rows = [];
+
+	function addRow(item){
+		const tr = document.createElement('tr');
+		const skillsText = Array.isArray(item.skills) ? item.skills.join(', ') : 'N/A';
+		tr.innerHTML = `
+			<td>${item.filename || 'N/A'}</td>
+			<td>${item.name || 'N/A'}</td>
+			<td>${item.email || 'N/A'}</td>
+			<td>${item.phone || 'N/A'}</td>
+			<td>${skillsText || 'N/A'}</td>
+		`;
+		tbody.appendChild(tr);
+		rows.push({
+			filename: item.filename || null,
+			name: item.name || null,
+			email: item.email || null,
+			phone: item.phone || null,
+			skills: Array.isArray(item.skills) ? item.skills : null,
+		});
+	}
+
+	async function upload(file){
+		const form = new FormData();
+		form.append('file', file);
+		const res = await fetch('/analyze', { method: 'POST', body: form });
+		if(!res.ok){
+			const msg = await res.text();
+			throw new Error(msg || 'Upload failed');
+		}
+		return await res.json();
+	}
+
+	dropzone.addEventListener('dragover', (e)=>{ e.preventDefault(); dropzone.classList.add('drag'); });
+	dropzone.addEventListener('dragleave', ()=> dropzone.classList.remove('drag'));
+	dropzone.addEventListener('drop', async (e)=>{
+		e.preventDefault(); dropzone.classList.remove('drag');
+		const file = e.dataTransfer.files?.[0];
+		if(!file) return;
+		try{
+			const data = await upload(file);
+			addRow(data);
+		}catch(err){ alert(err.message); }
+	});
+
+	browse.addEventListener('click', ()=> fileInput.click());
+	fileInput.addEventListener('change', async ()=>{
+		const file = fileInput.files?.[0];
+		if(!file) return;
+		try{
+			const data = await upload(file);
+			addRow(data);
+		}catch(err){ alert(err.message); }
+		fileInput.value = '';
+	});
+
+	exportBtn.addEventListener('click', ()=>{
+		const blob = new Blob([JSON.stringify(rows, null, 2)], { type: 'application/json' });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement('a');
+		a.href = url; a.download = 'resume-analysis.json'; a.click();
+		URL.revokeObjectURL(url);
+	});
+	</script>
+</body>
+</html> 

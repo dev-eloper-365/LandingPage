@@ -1,9 +1,11 @@
 "use client"
 import React from "react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { InfiniteSlider } from "@/components/ui/infinite-slider"
 import { cn } from "@/lib/utils"
+import { extractResumeData } from "@/lib/pdf"
 
 export function HeroSection() {
   return (
@@ -25,25 +27,26 @@ export function HeroSection() {
             <div className="relative mx-auto flex max-w-6xl flex-col px-6 lg:block">
               <div className="mx-auto max-w-lg text-center lg:ml-0 lg:w-1/2 lg:text-left">
                 <h1 className="mt-8 max-w-2xl text-balance text-5xl font-bold text-white md:text-6xl lg:mt-16 xl:text-7xl">
-                  Ship 10x Faster with NS
+                  Scan Your Resume here
                 </h1>
                 <p className="mt-8 max-w-2xl text-pretty text-lg font-semibold text-white">
-                  Highly customizable components for building modern websites and applications that look and feel the
-                  way you mean it.
+                  Get instant, ATS-ready feedback, skills extraction, and job match insights to make every application count.
                 </p>
 
-                <div className="mt-12 flex flex-col items-center justify-center gap-2 sm:flex-row lg:justify-start">
+                {/* <div className="mt-12 flex flex-col items-center justify-center gap-2 sm:flex-row lg:justify-start">
                   <Button asChild size="lg" className="px-5 text-base font-bold">
                     <Link href="#link">
-                      <span className="text-nowrap">Start Building</span>
+                      <span className="text-nowrap">Upload Resume</span>
                     </Link>
                   </Button>
                   <Button key={2} asChild size="lg" variant="ghost" className="px-5 text-base font-bold text-white border-white hover:bg-white hover:text-black">
                     <Link href="#link">
-                      <span className="text-nowrap">Request a demo</span>
+                      <span className="text-nowrap">View Sample Report</span>
                     </Link>
                   </Button>
-                </div>
+                </div> */}
+
+                <PdfDropZone />
               </div>
             </div>
           </div>
@@ -52,7 +55,7 @@ export function HeroSection() {
           <div className="group relative m-auto max-w-6xl px-6">
             <div className="flex flex-col items-center md:flex-row">
               <div className="md:max-w-44 md:border-r md:pr-6">
-                <p className="text-end text-sm">Powering the best teams</p>
+                <p className="text-end text-sm">Trusted by candidates and teams</p>
               </div>
               <div className="relative py-6 md:w-[calc(100%-11rem)]">
                 <InfiniteSlider speedOnHover={20} speed={40} gap={112}>
@@ -155,6 +158,95 @@ const HeroHeader = () => {
         </div>
       </nav>
     </header>
+  )
+}
+
+function PdfDropZone() {
+  const router = useRouter()
+  const inputRef = React.useRef<HTMLInputElement | null>(null)
+  const [isDragging, setIsDragging] = React.useState(false)
+  const [error, setError] = React.useState<string>("")
+  const [loading, setLoading] = React.useState(false)
+
+  const analyzeViaServer = async (file: File) => {
+    const form = new FormData()
+    form.append("file", file)
+    const base = process.env.NEXT_PUBLIC_PY_API_URL || "http://localhost:5001"
+    const res = await fetch(`${base}/analyze`, { method: "POST", body: form })
+    if (!res.ok) {
+      let details = ""
+      try {
+        const j = await res.json()
+        details = j?.details || j?.error || ""
+      } catch {}
+      throw new Error(details || `Server error: ${res.status}`)
+    }
+    return await res.json()
+  }
+
+  const handleFiles = async (files: FileList | null) => {
+    setError("")
+    if (!files || files.length === 0) return
+    const file = files[0]
+    if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+      setError("Please upload a PDF file.")
+      return
+    }
+    try {
+      setLoading(true)
+      let data
+      try {
+        data = await analyzeViaServer(file)
+      } catch (serverErr: any) {
+        try {
+          data = await extractResumeData(file)
+        } catch (clientErr: any) {
+          throw new Error(serverErr?.message || "Failed to process PDF")
+        }
+      }
+
+      const payload = { items: [data], generatedAt: new Date().toISOString() }
+      localStorage.setItem("resume-analysis", JSON.stringify(payload))
+      router.push("/analyzed")
+    } catch (e: any) {
+      setError(e?.message || "Failed to process PDF. Please try another file.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const onDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setIsDragging(false)
+    handleFiles(e.dataTransfer.files)
+  }
+
+  return (
+    <div className="mt-6">
+      <div
+        onDragOver={(e) => { e.preventDefault(); setIsDragging(true) }}
+        onDragLeave={() => setIsDragging(false)}
+        onDrop={onDrop}
+        className={cn(
+          "border-2 border-dashed rounded-xl p-6 bg-white/5 text-white",
+          isDragging ? "border-white" : "border-white/50"
+        )}
+      >
+        <p className="text-sm">Drag & drop a PDF resume here, or</p>
+        <div className="mt-3">
+          <Button variant="secondary" onClick={() => inputRef.current?.click()} size="sm" disabled={loading}>{loading ? "Processing..." : "Choose PDF"}</Button>
+          <input
+            ref={inputRef}
+            type="file"
+            accept="application/pdf"
+            className="hidden"
+            onChange={(e) => handleFiles(e.target.files)}
+          />
+        </div>
+      </div>
+      {error && <p className="mt-2 text-xs text-red-300">{error}</p>}
+    </div>
   )
 }
 

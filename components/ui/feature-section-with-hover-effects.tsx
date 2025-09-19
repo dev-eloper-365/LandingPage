@@ -5,43 +5,43 @@ import { Terminal, Zap, DollarSign, Cloud, Users, HelpCircle, Settings, Heart } 
 export function FeaturesSectionWithHoverEffects() {
   const features = [
     {
-      title: "Built for developers",
-      description: "Built for engineers, developers, dreamers, thinkers and doers.",
+      title: "Built for job seekers",
+      description: "Built for candidates, recruiters, hiring managers, and career coaches.",
       icon: <Terminal className="h-6 w-6" />,
     },
     {
-      title: "Ease of use",
-      description: "It's as easy as using an Apple, and as expensive as buying one.",
+      title: "Easy to use",
+      description: "Upload a resume and get a clear, actionable report in seconds.",
       icon: <Zap className="h-6 w-6" />,
     },
     {
-      title: "Pricing like no other",
-      description: "Our prices are best in the market. No cap, no lock, no credit card required.",
+      title: "Transparent pricing",
+      description: "Simple, fair plans. No lock‑in, cancel anytime. No credit card required to start.",
       icon: <DollarSign className="h-6 w-6" />,
     },
     {
-      title: "100% Uptime guarantee",
-      description: "We just cannot be taken down by anyone.",
+      title: "Reliable and secure",
+      description: "Always available with secure processing for your documents.",
       icon: <Cloud className="h-6 w-6" />,
     },
     {
-      title: "Multi-tenant Architecture",
-      description: "You can simply share passwords instead of buying new seats",
+      title: "Collaborative reviews",
+      description: "Share read‑only links with mentors or teammates for quick feedback",
       icon: <Users className="h-6 w-6" />,
     },
     {
-      title: "24/7 Customer Support",
-      description: "We are available a 100% of the time. Atleast our AI Agents are.",
+      title: "24/7 support",
+      description: "Get help anytime—our AI and team are here around the clock.",
       icon: <HelpCircle className="h-6 w-6" />,
     },
     {
-      title: "Money back guarantee",
-      description: "If you donot like EveryAI, we will convince you to like us.",
+      title: "Satisfaction guarantee",
+      description: "Not a fit? Get a hassle‑free refund within 7 days.",
       icon: <Settings className="h-6 w-6" />,
     },
     {
-      title: "And everything else",
-      description: "I just ran out of copy ideas. Accept my sincere apologies",
+      title: "And more",
+      description: "Keyword checks, skill gaps, job match scores, and tailored suggestions",
       icon: <Heart className="h-6 w-6" />,
     },
   ]
