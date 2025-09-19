@@ -4,9 +4,9 @@ import { ThemeProvider } from '@/components/theme-provider'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'v0 App',
-  description: 'Created with v0',
-  generator: 'v0.app',
+  title: 'Dev. Site',
+  description: 'Dev made it',
+  generator: 'Dev. Site',
 }
 
 export default function RootLayout({
