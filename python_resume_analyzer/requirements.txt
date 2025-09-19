@@ -3,3 +3,4 @@ Werkzeug==3.0.4
 pdfplumber==0.11.5
 pdfminer.six==20231228
 Flask-Cors==5.0.0
+gunicorn==21.2.0
